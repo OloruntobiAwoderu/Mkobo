@@ -28,11 +28,18 @@ const userSchema = new Schema(
     },
     Accountbal: {
       type: Number,
+      default: 0,
       required: true
     },
     AccountNumber: {
       type: Number,
       required: true
+    },
+    reset_password_token: {
+      type: String
+    },
+    reset_password_expires: {
+      type: Number
     }
   },
   { timestamps: true }
