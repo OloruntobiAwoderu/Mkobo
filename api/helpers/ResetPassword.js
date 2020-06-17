@@ -1,21 +1,23 @@
-const Mailgen = require('mailgen');
-const transporter = require('./transporter');
-const {  intro, instructions, button, outro, subject  } = require('./mailText')
+const Mailgen = require("mailgen");
+const transporter = require("./transporter");
+const { intro, instructions, button, outro, subject } = require("./mailText");
+const sgMail = require("@sendgrid/mail");
+const secret = require("../../config/keys");
+sgMail.setApiKey(secret.SENDGRID_API_KEY);
 
-
-async function passwordResetMail(url, token, email, name) {
+function passwordResetMail(url, token, email, name) {
+  console.log(url, token)
   const mailGenerator = new Mailgen({
-    theme: 'default',
+    theme: "default",
     product: {
-      name: 'ArtFinder',
-      link: `${url}`,
+      name: "Mkobo",
+      link: `${url}`
     }
   });
   const mail = {
     body: {
       name,
-      intro:
-        intro.second,
+      intro: intro.second,
       action: {
         instructions: instructions.second,
         button: {
@@ -24,8 +26,7 @@ async function passwordResetMail(url, token, email, name) {
           link: `${url}?token=${token}`
         }
       },
-      outro:
-        outro.second
+      outro: outro.second
     }
   };
   const emailBody = mailGenerator.generate(mail);
@@ -33,14 +34,13 @@ async function passwordResetMail(url, token, email, name) {
   const emailText = mailGenerator.generatePlaintext(mail);
 
   const mailOption = {
-    from: 'studentartcollectionlabseu3@gmail.com',
     to: email,
+    from: "Awoderuoloruntobi@gmail.com",
     subject: subject.second,
     html: emailBody,
     text: emailText
   };
-    const passwordMail = await transporter().sendMail(mailOption);
-    return passwordMail;
+  sgMail.send(mailOption);
 }
 
 module.exports = { passwordResetMail };
