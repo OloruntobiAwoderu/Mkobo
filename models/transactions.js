@@ -25,9 +25,13 @@ const transactionSchema = new Schema(
       required: true
     },
 
-    accountNumber: {
+    AccountNumber: {
       type: Number,
       required: true
+    }, 
+    name: {
+        type: String,
+        required: true
     }
   },
   { timestamps: true }
