@@ -1,8 +1,10 @@
 const models = require("../../models");
 
 const crypto = require("crypto");
+const bcrypt = require('bcryptjs')
 const mail = require("../helpers/ResetPassword");
 const response = require("../helpers/response");
+const secret = require("../../config/keys");
 const { generateToken, decodeToken } = require("../helpers/jwt");
 const { successResponse, errorHelper } = require("../helpers/response");
 
@@ -45,12 +47,13 @@ module.exports = {
   async sendPasswordMail(req, res, next) {
     const token = await crypto.randomBytes(20).toString("hex");
     const expiringDate = Date.now() + 3600000;
+    console.log(req.userEmail);
     try {
       mail.passwordResetMail(
-        `${secret.FRONTEND}/resetpassword`,
+        `http://localhost:4000/resetpassword`,
         token,
         req.userEmail.email,
-        req.userEmail.name
+        req.userEmail.firstname
       );
       await models.User.findOneAndUpdate(
         { email: req.userEmail.email },
@@ -60,6 +63,7 @@ module.exports = {
         },
         { new: true }
       );
+
       return response.successResponse(
         res,
         200,

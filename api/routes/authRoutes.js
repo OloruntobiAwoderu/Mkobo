@@ -11,5 +11,15 @@ router.post(
 );
 
 router.post('/login', [userValidators.loginCredentials], controller.loginUser);
+router.post(
+    "/resetpassword",
+    [userValidators.validateUserEmail],
+    controller.sendPasswordMail
+  );
+  router.patch(
+    "/newpassword",
+    [userValidators.validatePassword],
+    controller.resetPassword
+  );
 
 module.exports = router;
