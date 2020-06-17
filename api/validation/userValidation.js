@@ -87,4 +87,13 @@ module.exports = {
     return next();
 
   },
+  async validateAccountNumb(req, res, next){
+      const { AccountNumber } = req.body
+      const isAccountNumber = await models.User.findOne({AccountNumber});
+      if(isAccountNumber){
+        next()
+      }else {
+          errorHelper(res, 404, "Account Number does not exist")
+      }
+  }
 };
