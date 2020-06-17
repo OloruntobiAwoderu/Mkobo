@@ -10,5 +10,10 @@ router.post(
   userValidators.validateUser,
   controller.transfer
 );
+router.get(
+  "/transactions",
+  userValidators.validateUser,
+  controller.getTransactionHistory
+);
 
 module.exports = router;
