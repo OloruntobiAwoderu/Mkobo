@@ -1,5 +1,4 @@
 const Mailgen = require("mailgen");
-const transporter = require("./transporter");
 const { intro, instructions, button, outro, subject } = require("./mailText");
 const sgMail = require("@sendgrid/mail");
 const secret = require("../../config/keys");
