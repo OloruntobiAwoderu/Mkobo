@@ -12,7 +12,13 @@ It's dynamic, feels fast and adapts to how my mind thinks.It gives me all the to
 
 5. A rate limiter is a tool that monitors the number of requests per a window time a service agrees to allow. If the request count exceeds the number agreed by the service owner and the user (in a decided window time), the rate limiter blocks all the excess calls(say by throwing exceptions). The user can be a human or any other service(ex: in a micro service based architecture).
 Throttling is a common way to practically implement rate-limiting. It lets API developers control how their API is used by setting up a temporary state, allowing the API to assess each request. When the throttle is triggered, a user may either be disconnected or simply have their bandwidth reduced.
-Possible at the application, API, or user level, 
+Possible at the application, API, or user level
+We can implement this by passing all our API requests through our API rate Limiter.
+
+So for every request we can verify how many requests this user has sent in last one second, minute or hour based on user plan.
+We should use some kind of storage mechanism to count the number of requests/duration
+In our storage system, the timestamps are the boundaries of our request It means let's say a user is in free plan that means from the problem statement we should allow only 50 reqs/sec. So start and end time will be differ by 1000 milli secs.
+We'll have our logic like when API rate limiter receives a request if checks in the database for a record which is least recent in start time having empty end time for the current user. If it found then validates the number of requests and proceeds further if limit is not reached else throws exception.
 
 ## Mkobo Backend
 A simple REST API, that enables registered users to send and recieve transfers and also query and get their transaction history
