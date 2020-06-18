@@ -4,9 +4,9 @@ const crypto = require("crypto");
 const bcrypt = require('bcryptjs')
 const mail = require("../helpers/ResetPassword");
 const response = require("../helpers/response");
-const secret = require("../../config/keys");
-const { generateToken, decodeToken } = require("../helpers/jwt");
+const { generateToken } = require("../helpers/jwt");
 const { successResponse, errorHelper } = require("../helpers/response");
+
 
 module.exports = {
   async createUser(req, res) {
@@ -14,7 +14,8 @@ module.exports = {
       req.body.AccountNumber = Math.floor(Date.now() + Math.random());
       const user = await models.User.create(req.body);
       const token = await generateToken(user);
-      return successResponse(res, 201, { msg: "Usercreated", token, user });
+      const userDetails = await models.User.findOne({email: user.email})
+      return successResponse(res, 201, { msg: "Usercreated", token, userDetails });
     } catch (error) {
       return errorHelper(res, 500, error.message);
     }
@@ -33,11 +34,12 @@ module.exports = {
         return errorHelper(res, 401, "Invalid credentials");
       }
       const token = await generateToken(user);
+      const userDetails = await models.User.findOne({ email: req.body.email })
 
       return successResponse(res, 200, {
         message: "successfully logged in",
         token,
-        user
+        userDetails
       });
     } catch (error) {
       return errorHelper(res, 500, error.message);
@@ -46,11 +48,11 @@ module.exports = {
 
   async sendPasswordMail(req, res, next) {
     const token = await crypto.randomBytes(20).toString("hex");
-    const expiringDate = Date.now() + 3600000;
+    const expiringDate = Date.now() + 3600;
     console.log(req.userEmail);
     try {
       mail.passwordResetMail(
-        `http://localhost:4000/resetpassword`,
+        `http://localhost:4000/newpassword`,
         token,
         req.userEmail.email,
         req.userEmail.firstname
