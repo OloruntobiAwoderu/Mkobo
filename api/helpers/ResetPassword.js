@@ -34,7 +34,7 @@ function passwordResetMail(url, token, email, name) {
 
   const mailOption = {
     to: email,
-    from: "Awoderuoloruntobi@gmail.com",
+    from: `${secret.SENDERS_EMAIL}`,
     subject: subject.second,
     html: emailBody,
     text: emailText
