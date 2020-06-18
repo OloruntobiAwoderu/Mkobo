@@ -48,11 +48,11 @@ module.exports = {
 
   async sendPasswordMail(req, res, next) {
     const token = await crypto.randomBytes(20).toString("hex");
-    const expiringDate = Date.now() + 3600;
+    const expiringDate = Date.now() + 360000;
     console.log(req.userEmail);
     try {
       mail.passwordResetMail(
-        `http://localhost:4000/newpassword`,
+        `http://localhost:4000/users/newpassword`,
         token,
         req.userEmail.email,
         req.userEmail.firstname

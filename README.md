@@ -10,7 +10,9 @@ It's dynamic, feels fast and adapts to how my mind thinks.It gives me all the to
 
 4. Yes, when there is multiple inheritance. Probably all types are prone to abuse and misuse. Inheritance with ambiguity, abstraction where we are over generalizing, encapsulation hiding too much info, and polymorphism overriding too much. This may be prevented by following established best pratices and designing and coding in such a way that is simple for anyone to understand and follow. Simplicity is key.
 
-5. 
+5. A rate limiter is a tool that monitors the number of requests per a window time a service agrees to allow. If the request count exceeds the number agreed by the service owner and the user (in a decided window time), the rate limiter blocks all the excess calls(say by throwing exceptions). The user can be a human or any other service(ex: in a micro service based architecture).
+Throttling is a common way to practically implement rate-limiting. It lets API developers control how their API is used by setting up a temporary state, allowing the API to assess each request. When the throttle is triggered, a user may either be disconnected or simply have their bandwidth reduced.
+Possible at the application, API, or user level, 
 
 ## Mkobo Backend
 A simple REST API, that enables registered users to send and recieve transfers and also query and get their transaction history
@@ -98,7 +100,7 @@ GET | auth/transactions | Get transactions history|
 
 ## API Documentation
 
-You can find the documentation here [API DOCS]()
+You can find the documentation here [API DOCS](https://documenter.getpostman.com/view/9555585/SzzkdxkG?version=latest)
 
 
 ## Author
