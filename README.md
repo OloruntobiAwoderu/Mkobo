@@ -94,7 +94,7 @@ GET | auth/transactions | Get transactions history|
 - MongoDB
 - Jest
 - Mongoose
-- Travis CI
+
 
 
 
